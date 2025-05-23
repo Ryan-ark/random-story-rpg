@@ -71,21 +71,21 @@ export const generateDynamicOptions = (text: string): string[] => {
   
   // === COMBAT OPTIONS (prioritized) ===
   if (context.hasCombat) {
-    options.push("Attack"); // Always include "Attack" for combat
-    options.push("Dodge");
+    options.push("Fight"); // Use "Fight" instead of "Attack" - simpler
+    options.push("Jump away"); // "Dodge" replaced with simpler language
     
     if (keywords.includes('weapon') || keywords.includes('sword') || keywords.includes('bow')) {
-      options.push("Use weapon");
+      options.push("Use my weapon");
     }
     
-    options.push("Retreat");
+    options.push("Run away"); // "Retreat" replaced with simpler language
   }
   
   // === EXPLORATION OPTIONS ===
   if (context.hasExploration) {
-    options.push("Explore further");
+    options.push("Look more");
     options.push("Go another way");
-    options.push("Search area");
+    options.push("Look for stuff");
   } else {
     options.push("Look around");
   }
@@ -100,61 +100,61 @@ export const generateDynamicOptions = (text: string): string[] => {
     }
     
     if (keywords.includes('betray') || keywords.includes('enemy')) {
-      options.push("Be cautious");
-      options.push("Confront");
+      options.push("Be careful");
+      options.push("Talk to them"); // "Confront" replaced with simpler language
     }
   }
   
   // === TREASURE OPTIONS ===
   if (context.hasTreasure) {
-    options.push("Search for valuables");
-    options.push("Take treasure");
-    options.push("Examine closely");
+    options.push("Look for treasure");
+    options.push("Take stuff");
+    options.push("Look closer");
   }
   
   // === MYSTERY OPTIONS ===
   if (context.hasMystery) {
-    options.push("Investigate");
+    options.push("Find out more");
     options.push("Ask around");
-    options.push("Look for clues");
+    options.push("Look for hints");
   }
   
   // === DANGER OPTIONS ===
   if (context.hasDanger && !context.hasCombat) {
-    options.push("Proceed carefully");
+    options.push("Be careful");
     options.push("Find another way");
-    options.push("Prepare defenses");
+    options.push("Get ready");
   }
   
   // === MISSION OPTIONS ===
   if (context.hasMission) {
-    options.push("Accept quest");
-    options.push("Decline");
-    options.push("Negotiate terms");
+    options.push("Say yes");
+    options.push("Say no");
+    options.push("Ask for more");
   }
   
   // === LOCATION-BASED OPTIONS ===
   if (keywords.includes('shop') || keywords.includes('merchant')) {
-    options.push("Buy items");
-    options.push("Sell items");
-    options.push("Haggle");
+    options.push("Buy stuff");
+    options.push("Sell stuff");
+    options.push("Ask for better price");
   }
   
   if (keywords.includes('tavern') || keywords.includes('inn')) {
     options.push("Get a drink");
-    options.push("Rent a room");
-    options.push("Listen to gossip");
+    options.push("Get a room");
+    options.push("Listen to stories");
   }
   
   if (keywords.includes('temple') || keywords.includes('church')) {
     options.push("Pray");
-    options.push("Seek guidance");
-    options.push("Make offering");
+    options.push("Ask for help");
+    options.push("Give a gift");
   }
   
   // If we still don't have enough options, add generic ones
   if (options.length < 3) {
-    options.push("Continue");
+    options.push("Keep going");
     options.push("Wait");
     options.push("Think");
   }
@@ -162,8 +162,8 @@ export const generateDynamicOptions = (text: string): string[] => {
   // IMPORTANT: Add combat options a second time to ensure they're considered
   // This increases the chance that combat options will be selected
   if (context.hasCombat) {
-    options.push("Attack");
-    options.push("Defend");
+    options.push("Fight");
+    options.push("Protect myself");
   }
   
   // Shuffle the options to prevent predictability

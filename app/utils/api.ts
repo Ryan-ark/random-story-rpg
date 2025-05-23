@@ -42,7 +42,10 @@ export const getRandomStoryEvent = async (playerState: any, input?: string) => {
       : '';
     
     // Updated prompt to maintain story continuity
-    const systemPrompt = `You're an RPG storyteller creating a CONTINUOUS adventure story. CRITICAL RULES:
+    const systemPrompt = `You're an RPG storyteller creating a CONTINUOUS adventure story for kids. CRITICAL RULES:
+    - Use VERY SIMPLE words a 10-year-old would understand
+    - Keep sentences SHORT (5-7 words per sentence)
+    - Avoid complex words or concepts
     - Use DIRECT language with NO flowery words
     - Keep responses SHORT normally (30-50 words)
     - For intense moments (combat, plot twists, discoveries), use up to 100 words
@@ -60,8 +63,12 @@ export const getRandomStoryEvent = async (playerState: any, input?: string) => {
     const userPrompt = input 
       ? `Continue the adventure based on: "${input}". 
          ${pastContext ? `\n\n${pastContext}\n\nMaintain continuity with these events.` : ''}
+         Use VERY SIMPLE words a 10-year-old can understand. 
+         Keep sentences SHORT (5-7 words per sentence).
          Be direct. Specify a location name. Don't list options.`
-      : `Start new adventure. Specify a location name. Don't ask "what will you do?" or list options.`;
+      : `Start new adventure using VERY SIMPLE words a 10-year-old can understand.
+         Keep sentences SHORT (5-7 words per sentence).
+         Specify a location name. Don't ask "what will you do?" or list options.`;
     
     const response = await api.post('/chat/completions', {
       model: env.DEFAULT_MODEL,

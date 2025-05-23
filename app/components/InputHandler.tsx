@@ -50,8 +50,16 @@ const InputHandler = ({
     }
   };
 
+  // Handle option button click
+  const handleOptionClick = (option: string) => {
+    if (!disabled) {
+      onSubmit(option);
+    }
+  };
+
   return (
     <div className="mt-4 w-full">
+      {/* Combat buttons */}
       {inCombat && (
         <div className="flex flex-wrap gap-2 mb-2">
           <button
@@ -78,6 +86,22 @@ const InputHandler = ({
         </div>
       )}
 
+      {/* Option buttons */}
+      {options.length > 0 && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-4">
+          {options.map((option, index) => (
+            <button
+              key={index}
+              onClick={() => handleOptionClick(option)}
+              disabled={disabled}
+              className="bg-green-800 hover:bg-green-700 text-white px-3 py-2 rounded font-mono text-left disabled:opacity-50 text-sm sm:text-base transition-colors duration-200"
+            >
+              {option}
+            </button>
+          ))}
+        </div>
+      )}
+
       <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row">
         <div className="hidden sm:flex bg-gray-800 text-green-400 px-2 py-2 font-mono">
           &gt;
@@ -91,7 +115,7 @@ const InputHandler = ({
           disabled={disabled}
           className="flex-1 bg-black text-green-400 px-2 py-2 font-mono focus:outline-none border sm:border-l-0 border-gray-800 rounded-t sm:rounded-none"
           aria-label="Game command input"
-          placeholder={disabled ? "Waiting for adventure..." : "Enter command..."}
+          placeholder={disabled ? "Waiting for adventure..." : "Type anything like get a job"}
           tabIndex={0}
         />
         <button
@@ -106,7 +130,7 @@ const InputHandler = ({
 
       {options.length > 0 && (
         <div className="mt-2 text-xs sm:text-sm text-gray-500 font-mono">
-          Tip: Type a number (1-{options.length}) to quickly select an option
+          Type your own command or click an option above
         </div>
       )}
     </div>

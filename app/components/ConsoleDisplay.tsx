@@ -77,7 +77,7 @@ const ConsoleDisplay = ({
               <div className="text-gray-400 mt-2">
                 {event.options.map((option, oidx) => (
                   <div key={oidx} className="break-words">
-                    [{oidx + 1}] {option}
+                    {option}
                   </div>
                 ))}
               </div>
