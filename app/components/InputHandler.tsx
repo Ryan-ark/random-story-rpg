@@ -13,43 +13,6 @@ const InputHandler = ({
   options = [],
   inCombat = false
 }: InputHandlerProps) => {
-  const [input, setInput] = useState('');
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  // Focus the input field when component mounts
-  useEffect(() => {
-    if (inputRef.current && !disabled) {
-      inputRef.current.focus();
-    }
-  }, [disabled]);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (input.trim() && !disabled) {
-      onSubmit(input.trim());
-      setInput('');
-    }
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    // Handle numeric shortcuts for options
-    if (!disabled && options.length > 0 && e.key >= '1' && e.key <= `${options.length}`) {
-      const optionIndex = parseInt(e.key) - 1;
-      if (optionIndex >= 0 && optionIndex < options.length) {
-        onSubmit(options[optionIndex]);
-        setInput('');
-      }
-    }
-  };
-
-  // Quick combat commands
-  const handleQuickCommand = (command: string) => {
-    if (!disabled) {
-      onSubmit(command);
-      setInput('');
-    }
-  };
-
   // Handle option button click
   const handleOptionClick = (option: string) => {
     if (!disabled) {
@@ -57,29 +20,36 @@ const InputHandler = ({
     }
   };
 
+  // Quick combat commands
+  const handleQuickCommand = (command: string) => {
+    if (!disabled) {
+      onSubmit(command);
+    }
+  };
+
   return (
     <div className="mt-4 w-full">
       {/* Combat buttons */}
       {inCombat && (
-        <div className="flex flex-wrap gap-2 mb-2">
+        <div className="flex flex-wrap gap-2 mb-4">
           <button
             onClick={() => handleQuickCommand('attack')}
             disabled={disabled}
-            className="flex-1 min-w-[80px] bg-red-800 hover:bg-red-700 text-white px-2 sm:px-4 py-1 rounded font-mono disabled:opacity-50 text-sm sm:text-base"
+            className="flex-1 min-w-[80px] bg-red-800 hover:bg-red-700 text-white px-2 sm:px-4 py-2 rounded font-mono disabled:opacity-50 text-sm sm:text-base"
           >
             Attack
           </button>
           <button
             onClick={() => handleQuickCommand('defend')}
             disabled={disabled}
-            className="flex-1 min-w-[80px] bg-blue-800 hover:bg-blue-700 text-white px-2 sm:px-4 py-1 rounded font-mono disabled:opacity-50 text-sm sm:text-base"
+            className="flex-1 min-w-[80px] bg-blue-800 hover:bg-blue-700 text-white px-2 sm:px-4 py-2 rounded font-mono disabled:opacity-50 text-sm sm:text-base"
           >
             Defend
           </button>
           <button
             onClick={() => handleQuickCommand('flee')}
             disabled={disabled}
-            className="flex-1 min-w-[80px] bg-gray-800 hover:bg-gray-700 text-white px-2 sm:px-4 py-1 rounded font-mono disabled:opacity-50 text-sm sm:text-base"
+            className="flex-1 min-w-[80px] bg-gray-800 hover:bg-gray-700 text-white px-2 sm:px-4 py-2 rounded font-mono disabled:opacity-50 text-sm sm:text-base"
           >
             Flee
           </button>
@@ -87,50 +57,22 @@ const InputHandler = ({
       )}
 
       {/* Option buttons */}
-      {options.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-4">
+      {options.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           {options.map((option, index) => (
             <button
               key={index}
               onClick={() => handleOptionClick(option)}
               disabled={disabled}
-              className="bg-green-800 hover:bg-green-700 text-white px-3 py-2 rounded font-mono text-left disabled:opacity-50 text-sm sm:text-base transition-colors duration-200"
+              className="bg-green-800 hover:bg-green-700 text-white px-3 py-3 rounded font-mono text-left disabled:opacity-50 text-sm sm:text-base transition-colors duration-200"
             >
               {option}
             </button>
           ))}
         </div>
-      )}
-
-      <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row">
-        <div className="hidden sm:flex bg-gray-800 text-green-400 px-2 py-2 font-mono">
-          &gt;
-        </div>
-        <input
-          ref={inputRef}
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={handleKeyDown}
-          disabled={disabled}
-          className="flex-1 bg-black text-green-400 px-2 py-2 font-mono focus:outline-none border sm:border-l-0 border-gray-800 rounded-t sm:rounded-none"
-          aria-label="Game command input"
-          placeholder={disabled ? "Waiting for adventure..." : "Type anything like get a job"}
-          tabIndex={0}
-        />
-        <button
-          type="submit"
-          disabled={disabled || !input.trim()}
-          className="bg-green-900 hover:bg-green-800 text-white px-4 py-2 font-mono disabled:opacity-50 rounded-b sm:rounded-none"
-          aria-label="Submit command"
-        >
-          Enter
-        </button>
-      </form>
-
-      {options.length > 0 && (
-        <div className="mt-2 text-xs sm:text-sm text-gray-500 font-mono">
-          Type your own command or click an option above
+      ) : (
+        <div className="text-center text-gray-500 text-sm font-mono p-3">
+          {disabled ? "Waiting for adventure..." : "Choose your path..."}
         </div>
       )}
     </div>
