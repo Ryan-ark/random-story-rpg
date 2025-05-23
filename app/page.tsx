@@ -408,6 +408,7 @@ export default function Home() {
         <footer className="mt-6 sm:mt-8 text-center text-gray-500 text-xs font-mono">
           <p>Random Story RPG - Powered by AI</p>
           <p className="mt-1">Use commands like &apos;look&apos;, &apos;inventory&apos;, &apos;examine&apos;, or choose options.</p>
+          <p className="mt-2">Created by Ryan Elico AKA Nasaro</p>
         </footer>
       </div>
       
